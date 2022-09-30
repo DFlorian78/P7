@@ -62,6 +62,7 @@
 </template>
 
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,900;1,900&display=swap');
 
 .bd-placeholder-img {
         font-size: 1.125rem;

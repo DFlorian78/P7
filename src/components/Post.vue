@@ -64,28 +64,11 @@ export default {
                 .catch((err) => console.log("err:", err))
         },
 
-        /* modifyPost(e) {
-        fetch(url + "posts/" + this.$props.post.id, {
-            headers: {...headers, "Content-Type": "application/json" },
-            method: "PUT"
-        })
-        .then ((res) => {
-            if (res.status === 200) {
-                return res.json()
-            } else {
-              throw new Error("Failed to delete post")
-            }
-        })
-        .then((res) => {
-            console.log("res:", res)
-            this.$router.go()
-        })
-        .catch((err) => console.log("err:", err))
-            },
-    
         modifyPost(e) {
-            console.log("e:", e)
-        } */
+            document.getElementById('message').value = this.$props.post.content;
+            document.getElementById('articleid').value = this.$props.post.id;
+            document.getElementById('send').value = "Modifier";
+        },
 
         likeOrUnlike(like) {
             let userId = this.$props.post.userId;
@@ -115,21 +98,18 @@ export default {
 
         doILike(likes) {
             let usersliked = likes.split(",");
-            if (usersliked.includes(this.$props.post.userId.toString()))
+            if (usersliked.includes(currentUser.id.toString()))
                 return 0;
-                return 1;
+            return 1;
         },
 
         doIDislike(dislikes) {
             let usersdisliked = dislikes.split(",");
-            if (usersdisliked.includes(this.$props.post.userId.toString()))
+            if (usersdisliked.includes(currentUser.id.toString()))
                 return 0;
-                return -1;
+            return -1;
         },
 
-        toggleModifyPost(){
-            this.isModifyPost = !this.isModifyPost
-        },
     }
 }
 </script>
@@ -153,13 +133,10 @@ export default {
                         </div>
                         <div>
                             <div class="dropdown">
-                                <button v-if="post.userId  == currentUser.id" class=" btn btn-link" type="button" @click.prevent="toggleModifyPost">
+                                <button v-if="post.userId  == currentUser.id || currentUser.is_admin==1" class=" btn btn-link" type="button" @click.prevent="modifyPost">
                                     <i  class="bi bi-pencil-square" ></i>
                                 </button>
-                                <button v-if="isModifyPost" type="submit" class="btn btn-link" @click="modifyPost">
-                                    <i class="bi bi-check-circle"></i>
-                                </button>
-                                <button v-if="post.userId  == currentUser.id" class="btn btn-link" type="button" @click="deletePost">
+                                <button v-if="post.userId  == currentUser.id || currentUser.is_admin==1" class="btn btn-link" type="button" @click="deletePost">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </div>
@@ -170,7 +147,7 @@ export default {
                 <div class="card-body">
                     <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i> Il y'a 10 min</div>
                     <a class="card-link" href="#">
-                        <img v-if="url" :src="url" class="card-img-top" alt="..." />
+                        <img :src="post.imageUrl" class="card-img-top" alt="..." />
                     </a>
 
                     <p class="card-text" style="color:black;">
@@ -201,6 +178,7 @@ export default {
 </template>
 
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,900;1,900&display=swap');
 
 a:hover {
     color:unset !important;

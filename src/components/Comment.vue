@@ -27,7 +27,7 @@
 			</a>
 		</div>
 		<div class="flex-grow-1 pl-2">
-			<div class="text-decoration-none text-capitalize h6 m-2">{{ user }}</div>
+			<div class="text-decoration-none text-capitalize h6 m-2 fw-bold">{{ user }}</div>
 		</div>
 		<div >
 			<div class="dropdown">
@@ -57,4 +57,8 @@
 
 </template>
 
-<script></script>
+<style>
+	.card-text {
+		margin-top:10px;
+	}
+</style>

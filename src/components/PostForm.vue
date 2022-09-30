@@ -16,6 +16,10 @@ export default {
             this.selectedImage = e.target.files[0]
         },
         handleClick() {
+            const articleid = parseInt(document.getElementById('articleid').value);
+            
+            
+
             const { VITE_SERVER_ADDRESS, VITE_SERVER_PORT } = import.meta.env
             const url = `http://${VITE_SERVER_ADDRESS}:${VITE_SERVER_PORT}/`
 
@@ -24,11 +28,11 @@ export default {
             formData.append("image", this.selectedImage)
             const options = {
                 headers,
-                method: "POST",
+                method: articleid >0 ? "PUT" : "POST",
                 body: formData,
 
             }
-            fetch(url + "posts", options)
+            fetch(url + "posts" + ((articleid > 0) ? "/"+articleid : ""), options)
                 .then((res) => {
                     if (res.status === 200) {
                         return res.json()
@@ -37,10 +41,15 @@ export default {
                     }
                 })
                 .then((res) => {
+                    
                     this.$router.go()
                 })
                 .catch((err) => console.log("err", err))
-        }
+        },
+        
+        toggleModifyPost(){
+            this.isModifyPost = !this.isModifyPost
+        },
     }
 }
 
@@ -54,6 +63,7 @@ export default {
                     <label class="sr-only" for="message">post</label>
                     <textarea class="form-control" id="message" rows="3" placeholder="Quoi de neuf ?"
                         v-model="content"></textarea>
+                    <input type="hidden" id="articleid"/>
                 </div>
                 <div class="btn-group">
                     <div class="d-flex">
@@ -61,7 +71,7 @@ export default {
                             une image</label>
 
                         <input id="file-input" type="file" @change="handleNewFile" />
-                        <button @click="handleClick" type="submit" class="btn btn-danger mt-3 ms-auto">Envoyer</button>
+                        <button @click="handleClick" id="send" type="submit" class="btn btn-danger mt-3 ms-auto" style="margin-right: 10px">Envoyer</button>
                         <span v-if="selectedImage">{{selectedImage.name}}</span>
                     </div>
                 </div>
@@ -73,6 +83,7 @@ export default {
 
 
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,900;1,900&display=swap');
 body {
     background-color: #eeeeee;
 }

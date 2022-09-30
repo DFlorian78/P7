@@ -161,9 +161,11 @@ function isFormValid(bool){
 
 
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,900;1,900&display=swap');
 html,
 body {
   height: 100%;
+  font-family: 'Lato', sans-serif !important;
 }
 
 body {

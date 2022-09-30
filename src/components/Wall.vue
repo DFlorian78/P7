@@ -158,13 +158,14 @@ export default {
           </div>
           <div class="btn-toolbar justify-content-between">
             <PostForm></PostForm>
-            <div v-if="posts.length === 0">C'est vide ici, commençer à discuter !</div>"
           </div>
         </div>
       </div>
       <hr class="dropdown-divider mt-4" />
       <div v-for="post in posts">
-        <Post :post="post">
+        <div v-if="posts.length === 0">C'est vide ici, commençer à discuter !</div>
+        <Post :post="post"
+              :url="post.imageUrl">
         </Post>
       </div>
     </main>
@@ -172,6 +173,7 @@ export default {
 </template>
     
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,900;1,900&display=swap');
 .navbar {
   padding-top: 0px !important;
   padding-bottom: 0px !important;
