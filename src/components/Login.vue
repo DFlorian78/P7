@@ -22,8 +22,8 @@ import { resetTracking } from "@vue/reactivity"
               throw new Error(error)
           })
     })
+/// On met notre Token dans le cache, une fois que tout est dans le cache on se fait rediriger vers la page Home
         .then((res) => {
-          console.log("res:", res)
           const token = res.token
           localStorage.setItem("token", token)
           localStorage.setItem("currentUser", JSON.stringify({id:res.id, email:res.email, is_admin:res.is_admin}))
@@ -39,12 +39,13 @@ import { resetTracking } from "@vue/reactivity"
       ///Fonction pour récuperer nos data de signup/login 
       data () {
       return {
-         email:"test@test.fr", password:"test", confirmPassword:"test", invalidCredentials:false, error:null, hasInvalidCredentials:false, isLoginMode: true,
+         email:"", password:"", confirmPassword:"", invalidCredentials:false, error:null, hasInvalidCredentials:false, isLoginMode: true,
         }
     },
       methods: {
         checkCredentials,
         isFormValid : isFormValid ,
+/// On utilise ToggleLoginMode pour switch entre Login et Signup
         toggleLoginMode(){
           this.isLoginMode =!this.isLoginMode
         },
@@ -115,7 +116,7 @@ function isFormValid(bool){
               <img class="mb-4 d-block mx-auto" src="../../images/icon-left-font-monochrome-black.svg" alt=""
                 style="max-width:100%; min-width:100%; min-height:100%;max-height:100%">
             </div>
-            <h1 class="h3 mb-3 fw-normal d-flex justify-content-center">Connexion</h1>
+            <h1 class="h3 mb-3 fw-normal d-flex justify-content-center">{{this.isLoginMode? "Connexion" : "Inscription"}}</h1>
 
             <div class="form-floating">
               <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" v-model="email" required="required" @invalid="formInvalid"/>
